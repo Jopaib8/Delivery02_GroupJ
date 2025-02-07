@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isMoving) LookAt((Vector2)transform.position + velocity);
         else transform.rotation = Quaternion.identity;
     }
+ 
 
     // NOTE: InputSystem: "SaveScore" action becomes "OnSaveScore" method
     public void OnSaveScore()
