@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,44 +14,49 @@ public class PlayerMovement : MonoBehaviour
     private float Speed = 5.0f;
 
     private bool _isMoving;
-    Rigidbody2D _rigidbody;
-
-    private int score = 2000;
+    private Rigidbody2D _rigidbody;
+    private Vector2 _movementInput = Vector2.zero;
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    void FixedUpdate()
+    {
+        MoveCharacter();
+    }
+
     public void OnMove(InputValue value)
     {
-        // Read value from control, the type depends on what
-        // type of controls the action is bound to
-        var inputVal = value.Get<Vector2>();
+        _movementInput = value.Get<Vector2>();
 
-        Vector2 velocity = inputVal * Speed;
+        
+        if (_movementInput.sqrMagnitude > 1)
+        {
+            _movementInput = _movementInput.normalized;
+        }
+    }
+
+    private void MoveCharacter()
+    {
+        
+        Vector2 velocity = _movementInput * Speed;
         _rigidbody.linearVelocity = velocity;
+        _isMoving = velocity.sqrMagnitude > 0.01f;
 
-        _isMoving = (velocity.magnitude > 0.01f);
-
-        if (_isMoving) LookAt((Vector2)transform.position + velocity);
-        else transform.rotation = Quaternion.identity;
-    }
- 
-
-    // NOTE: InputSystem: "SaveScore" action becomes "OnSaveScore" method
-    public void OnSaveScore()
-    {
-        // Usage example on how to save score
-        PlayerPrefs.SetInt("Score", score);
-        score = PlayerPrefs.GetInt("Score");
+        if (_isMoving)
+        {
+            LookAt(velocity);
+        }
     }
 
-    private void LookAt(Vector2 targetPosition)
+    private void LookAt(Vector2 movementDirection)
     {
-        float angle = 0.0f;
-        Vector3 relative = transform.InverseTransformPoint(targetPosition);
-        angle = Mathf.Atan2(relative.x, relative.y) * Mathf.Rad2Deg;
-        transform.Rotate(0, 0, -angle);
+        if (movementDirection.sqrMagnitude > 0.01f)
+        {
+            float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle - 90);
+        }
     }
 }
