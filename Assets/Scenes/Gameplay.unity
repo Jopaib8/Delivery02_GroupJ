@@ -758,7 +758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 991a75c65752d5e4ea272dbab50837df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
+  distanceMoved: {fileID: 8979769}
+  Speed: 5
+  distanceUnit: 0
 --- !u!114 &197610835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1324,6 +1326,9 @@ MonoBehaviour:
   MovementSpeed: 3
   MovemntSpeedPatrol: 4
   DetectionRange: 3
+  WhatIsVisible:
+    serializedVersion: 2
+    m_Bits: 4294967295
   WhatIsPlayer:
     serializedVersion: 2
     m_Bits: 256
@@ -2272,7 +2277,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

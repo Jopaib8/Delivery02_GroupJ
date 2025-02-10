@@ -118,10 +118,8 @@ public class EnemyPatrol : MonoBehaviour
         // Movimiento del enemigo
         if (Vector2.Distance(transform.position, Player.transform.position) > DetectionRange)
         {
-            if (PlayerInAngle(ref List < Transform > players)) { }
-            Vector2 point = CurrentPoint.position - transform.position;
-
-
+          
+            
             if (CurrentPoint == patrolPointB.transform)
             {
                 rb.linearVelocity = new Vector2(MovemntSpeedPatrol, 0);

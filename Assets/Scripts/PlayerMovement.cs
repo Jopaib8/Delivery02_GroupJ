@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 
 public class PlayerMovement : MonoBehaviour
 {
     public bool IsMoving => _isMoving;
-
+    public Text distanceMoved;
     [SerializeField]
     private float Speed = 5.0f;
-
+    public float distanceUnit = 0;
     private bool _isMoving;
     private Rigidbody2D _rigidbody;
     private Vector2 _movementInput = Vector2.zero;
@@ -20,11 +21,14 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        //Distance is calculated with the speed and InvokeRepeating
+      
     }
 
     void FixedUpdate()
     {
         MoveCharacter();
+       
     }
 
     public void OnMove(InputValue value)
@@ -35,7 +39,10 @@ public class PlayerMovement : MonoBehaviour
         if (_movementInput.sqrMagnitude > 1)
         {
             _movementInput = _movementInput.normalized;
+           
         }
+        distance();
+        distanceMoved.text = "Distance " + distanceUnit.ToString() + " meters";
     }
 
     private void MoveCharacter()
@@ -48,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
         if (_isMoving)
         {
             LookAt(velocity);
+            distance();
+            distanceMoved.text = "Distance " + distanceUnit.ToString() + " meters";
         }
     }
 
@@ -59,4 +68,12 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
     }
+    private void distance()
+    {
+  
+        distanceUnit = distanceUnit + 1/Speed;
+       
+
+    }
+
 }
