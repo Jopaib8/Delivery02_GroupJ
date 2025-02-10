@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         //Distance is calculated with the speed and InvokeRepeating
-      
+        TimerController.instance.BeginTimer();
     }
 
     void FixedUpdate()
