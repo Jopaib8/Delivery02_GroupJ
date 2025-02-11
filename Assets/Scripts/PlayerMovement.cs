@@ -9,49 +9,59 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public bool IsMoving => _isMoving;
+    public bool IsMoving = false;
     public Text distanceMoved;
     [SerializeField]
     private float Speed = 5.0f;
     public float distanceUnit = 0;
     private bool _isMoving;
     private Rigidbody2D _rigidbody;
-    private Vector2 _movementInput = Vector2.zero;
-
+    private Vector2 _movementInput;
+    private Vector2 lastPosition;
+    private float startTime; 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _rigidbody.freezeRotation = true;
+        startTime = Time.time;
     }
 
     void FixedUpdate()
     {
-        MoveCharacter();  
+        MoveCharacter();
     }
 
     public void OnMove(InputValue value)
     {
         _movementInput = value.Get<Vector2>();
-
-        if (_movementInput.sqrMagnitude > 1)
+        _isMoving = (Vector2)transform.position == lastPosition;
+        if (!_isMoving)
         {
-            _movementInput = _movementInput.normalized; 
+            if (_movementInput.sqrMagnitude > 1)
+            {
+                _movementInput = _movementInput.normalized;
+            }
+            distance();
+            distanceMoved.text = "Distance " + distanceUnit.ToString() + " meters";
         }
-        distance();
-        distanceMoved.text = "Distance " + distanceUnit.ToString() + " meters";
+        lastPosition = transform.position;
     }
 
     private void MoveCharacter()
     {
+       
         Vector2 velocity = _movementInput * Speed;
         _rigidbody.linearVelocity = velocity;
-        _isMoving = velocity.sqrMagnitude > 0.01f;
+        _isMoving = (Vector2)transform.position == lastPosition;
 
-        if (_isMoving)
+        if (!_isMoving)
         {
             LookAt(velocity);
             distance();
             distanceMoved.text = "Distance " + distanceUnit.ToString() + " meters";
         }
+        
+        lastPosition = transform.position;
     }
 
     private void LookAt(Vector2 movementDirection)
@@ -68,3 +78,4 @@ public class PlayerMovement : MonoBehaviour
     }
 
 }
+
