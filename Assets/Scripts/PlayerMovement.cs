@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
                 _movementInput = _movementInput.normalized;
             }
             distance();
-            distanceMoved.text = "Distance " + distanceUnit.ToString() + " meters";
+            distanceMoved.text = "Distance " + distanceUnit.ToString() + " units";
         }
         lastPosition = transform.position;
     }
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         {
             LookAt(velocity);
             distance();
-            distanceMoved.text = "Distance " + distanceUnit.ToString() + " meters";
+            distanceMoved.text = "Distance " + distanceUnit.ToString() + " units";
         }
         
         lastPosition = transform.position;
