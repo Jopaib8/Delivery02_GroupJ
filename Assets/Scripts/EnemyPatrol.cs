@@ -5,10 +5,8 @@ public class EnemyPatrol : MonoBehaviour
 {
     [SerializeField] private GameObject patrolPointA;
     [SerializeField] private GameObject patrolPointB;
-
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float MovemntSpeedPatrol;
-
     [Header("Enemy Detection")]
     [SerializeField] private float DetectionRange;
     public LayerMask WhatIsVisible;
@@ -25,6 +23,7 @@ public class EnemyPatrol : MonoBehaviour
         CurrentPoint = patrolPointB.transform;
 
         animator = GetComponent<Animator>();
+        rb.freezeRotation = true;
     }
 
     private bool PlayerInRange(ref List<Transform> players)
@@ -41,9 +40,9 @@ public class EnemyPatrol : MonoBehaviour
                 players.Add(item.transform);
             }
         }
+
         return result;
     }
-
     private bool PlayerInAngle(ref List<Transform> players)
     {
         for (int i = players.Count - 1; i >= 0; i--)
@@ -55,6 +54,7 @@ public class EnemyPatrol : MonoBehaviour
                 players.Remove(players[i]);
             }
         }
+
         return (players.Count > 0);
     }
 
@@ -91,6 +91,7 @@ public class EnemyPatrol : MonoBehaviour
                 players.Remove(players[i]);
             }
         }
+
         return (players.Count > 0);
     }
 
@@ -103,6 +104,7 @@ public class EnemyPatrol : MonoBehaviour
            DetectionRange,
            WhatIsVisible
         );
+
         return (hit.collider.transform == target);
     }
 
@@ -111,36 +113,66 @@ public class EnemyPatrol : MonoBehaviour
         if (Player == null)
         {
             Player = GameObject.FindGameObjectWithTag("Player");
+            Debug.Log("Jugador encontrado");
         }
 
         if (Vector2.Distance(transform.position, Player.transform.position) > DetectionRange)
-        { 
+        {
+            Debug.Log("Jugador fuera de rango. Patrullando...");
             transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
             {
-                Flip();
-                
+                Flip(); 
                 CurrentPoint = (CurrentPoint == patrolPointA.transform) ? patrolPointB.transform : patrolPointA.transform;
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (Player == null)
-        {
-            Player = GameObject.FindGameObjectWithTag("Player");
-        }
         else
         {
-            if (Vector2.Distance(transform.position, Player.transform.position) < DetectionRange)
+            Transform[] detectedPlayers = DetectPlayers();
+
+            if (detectedPlayers.Length > 0)
             {
+                Debug.Log("Jugador detectado. Persecución iniciada.");
                 transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
+                Debug.Log("Persiguiendo al jugador...");
+            }
+            else
+            {
+                Debug.Log("Jugador no detectado. Patrullando...");
+                transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
+
+                if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
+                {
+                    Flip(); 
+                    CurrentPoint = (CurrentPoint == patrolPointA.transform) ? patrolPointB.transform : patrolPointA.transform;
+                }
             }
         }
-
     }
+
+
+    /* private void FixedUpdate()
+     {
+         if (Player == null)
+         {
+             Player = GameObject.FindGameObjectWithTag("Player");
+         }
+         else if (DetectPlayers().Length > 0)
+         {
+             if (Vector2.Distance(transform.position, Player.transform.position) < DetectionRange)
+             {
+                 Debug.Log("persecucion");
+                 transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
+             }
+         }
+         else
+         {
+             Debug.Log("patrol");
+             transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
+         }
+
+     }*/
 
     private void Flip()
     {
