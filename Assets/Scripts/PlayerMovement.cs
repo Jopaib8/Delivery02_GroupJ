@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        TimerController.instance.BeginTimer();
     }
 
     void FixedUpdate()

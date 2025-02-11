@@ -26,6 +26,7 @@ public class EnemyPatrol : MonoBehaviour
 
         animator = GetComponent<Animator>();
     }
+
     private bool PlayerInRange(ref List<Transform> players)
     {
         bool result = false;
@@ -105,36 +106,22 @@ public class EnemyPatrol : MonoBehaviour
         return (hit.collider.transform == target);
     }
 
-    private void Update(ref List<Transform> players)
+    private void Update()
     {
+        if (Player == null)
+        {
+            Player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         if (Vector2.Distance(transform.position, Player.transform.position) > DetectionRange)
         { 
-            if (CurrentPoint == patrolPointB.transform)
-            {
-                rb.linearVelocity = new Vector2(MovemntSpeedPatrol, 0);
-            }
-            else if (CurrentPoint == patrolPointA.transform)
-            {
-                rb.linearVelocity = new Vector2(-MovemntSpeedPatrol, 0);
-            }
+            transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
 
-            if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.5f && CurrentPoint == patrolPointB.transform)
+            if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
             {
                 Flip();
-                CurrentPoint = patrolPointA.transform;
-            }
-
-            if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.5f && CurrentPoint == patrolPointA.transform)
-            {
-                Flip();
-                CurrentPoint = patrolPointB.transform;
-            }
-        }
-        else
-        {
-            if (Player == null)
-            {
-                Player = GameObject.FindGameObjectWithTag("Player");
+                
+                CurrentPoint = (CurrentPoint == patrolPointA.transform) ? patrolPointB.transform : patrolPointA.transform;
             }
         }
     }
@@ -158,7 +145,7 @@ public class EnemyPatrol : MonoBehaviour
     private void Flip()
     {
         Vector3 Scaler = transform.localScale;
-        Scaler.y *= -1;
+        Scaler.x *= -1;
         transform.localScale = Scaler;
     }
 

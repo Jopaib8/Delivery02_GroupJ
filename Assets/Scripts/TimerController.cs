@@ -4,56 +4,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using UnityEngine.PlayerLoop;
 
 public class TimerController : MonoBehaviour 
 {
-    public static TimerController instance;
-    public Text timeCounter;
-    private TimeSpan timePlaying;
-    private bool isTimerGoing;
-
-    private float passedTime;
+    public Text TimerTxt;
+    public float playTime;
+    public bool timerOn = false;
     
-    private void Awake()
-    {
-        instance = this;
-    }
-
     private void Start()
     {
-
-        timeCounter.text = "Time: 00:00:00";
-        isTimerGoing = false;
+        timerOn = true;
     }
 
-    public void BeginTimer()
+    private void Update()
     {
-        isTimerGoing = true;
-        
-        passedTime = 0f;
-
-        StartCoroutine(UpdateTimer());
-    }
-
-    public void EndTImer()
-    {
-        isTimerGoing = false;
-    }
-
-    private IEnumerator UpdateTimer()
-    {
-        while(isTimerGoing)
+        if (timerOn)
         {
-            passedTime += Time.deltaTime;
+            UpdateTimer(playTime);
 
-            timePlaying = TimeSpan.FromSeconds(passedTime);
-
-            string timePlayingStr = "Time" + timePlaying.ToString("mm':'ss'.'ff");
-            timeCounter.text = timePlayingStr;
-            yield return null;
+            playTime += Time.deltaTime;
         }
     }
 
-
+  private  void UpdateTimer(float currentTime)
+    {
+        currentTime += 1;
+        float minutes = Mathf.FloorToInt(currentTime / 60);
+        float seconds = Mathf.FloorToInt(currentTime % 60);
+        TimerTxt.text = "Time: " +  string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
 }
-
