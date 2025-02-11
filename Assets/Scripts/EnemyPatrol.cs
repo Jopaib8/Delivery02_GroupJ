@@ -6,12 +6,8 @@ public class EnemyPatrol : MonoBehaviour
     [SerializeField] private GameObject patrolPointA;
     [SerializeField] private GameObject patrolPointB;
 
-
-
-
     [SerializeField] private float MovementSpeed;
     [SerializeField] private float MovemntSpeedPatrol;
-
 
     [Header("Enemy Detection")]
     [SerializeField] private float DetectionRange;
@@ -28,10 +24,7 @@ public class EnemyPatrol : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         CurrentPoint = patrolPointB.transform;
 
-
         animator = GetComponent<Animator>();
-
-
     }
     private bool PlayerInRange(ref List<Transform> players)
     {
@@ -47,7 +40,6 @@ public class EnemyPatrol : MonoBehaviour
                 players.Add(item.transform);
             }
         }
-
         return result;
     }
 
@@ -62,9 +54,9 @@ public class EnemyPatrol : MonoBehaviour
                 players.Remove(players[i]);
             }
         }
-
         return (players.Count > 0);
     }
+
     private float GetAngle(Transform target)
     {
         Vector2 targetDir = target.position - transform.position;
@@ -72,6 +64,7 @@ public class EnemyPatrol : MonoBehaviour
 
         return angle;
     }
+
     public Transform[] DetectPlayers()
     {
         List<Transform> players = new List<Transform>();
@@ -83,9 +76,9 @@ public class EnemyPatrol : MonoBehaviour
                 PlayerIsVisible(ref players);
             }
         }
-
         return players.ToArray();
     }
+
     private bool PlayerIsVisible(ref List<Transform> players)
     {
         for (int i = players.Count - 1; i >= 0; i--)
@@ -97,7 +90,6 @@ public class EnemyPatrol : MonoBehaviour
                 players.Remove(players[i]);
             }
         }
-
         return (players.Count > 0);
     }
 
@@ -110,68 +102,59 @@ public class EnemyPatrol : MonoBehaviour
            DetectionRange,
            WhatIsVisible
         );
-
         return (hit.collider.transform == target);
     }
+
     private void Update(ref List<Transform> players)
     {
-        // Movimiento del enemigo
         if (Vector2.Distance(transform.position, Player.transform.position) > DetectionRange)
-        {
-          
-            
+        { 
             if (CurrentPoint == patrolPointB.transform)
             {
                 rb.linearVelocity = new Vector2(MovemntSpeedPatrol, 0);
-
             }
             else if (CurrentPoint == patrolPointA.transform)
             {
                 rb.linearVelocity = new Vector2(-MovemntSpeedPatrol, 0);
-
             }
 
-            // Cambio de direccion del enemigo
             if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.5f && CurrentPoint == patrolPointB.transform)
             {
                 Flip();
                 CurrentPoint = patrolPointA.transform;
             }
+
             if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.5f && CurrentPoint == patrolPointA.transform)
             {
                 Flip();
                 CurrentPoint = patrolPointB.transform;
-
             }
         }
         else
         {
-
             if (Player == null)
             {
                 Player = GameObject.FindGameObjectWithTag("Player");
             }
-
         }
     }
+
     private void FixedUpdate()
     {
         if (Player == null)
         {
             Player = GameObject.FindGameObjectWithTag("Player");
-
         }
         else
         {
             if (Vector2.Distance(transform.position, Player.transform.position) < DetectionRange)
             {
-               
-                    transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
-                
+                transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
             }
         }
 
     }
+
     private void Flip()
     {
         Vector3 Scaler = transform.localScale;
@@ -182,7 +165,6 @@ public class EnemyPatrol : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-
         Gizmos.DrawWireSphere(transform.position, DetectionRange);
 
         Gizmos.color = Color.yellow;
@@ -194,10 +176,8 @@ public class EnemyPatrol : MonoBehaviour
         Gizmos.DrawRay(transform.position, direction2 * DetectionRange);
 
         Gizmos.color = Color.white;
-
     }
 
-    // Dibujar los puntos de patrullaje
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -208,6 +188,5 @@ public class EnemyPatrol : MonoBehaviour
         Gizmos.DrawLine(patrolPointA.transform.position, patrolPointB.transform.position);
     }
 
-#endif
-  
+#endif 
 }

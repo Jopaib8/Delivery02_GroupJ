@@ -19,7 +19,6 @@ public class StartInput : MonoBehaviour
         }
     }
 
-
     private void OnDisable()
     {
         if (startAction != null)
@@ -37,7 +36,5 @@ public class StartInput : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadSceneAsync(1);
-
     }
-
 }

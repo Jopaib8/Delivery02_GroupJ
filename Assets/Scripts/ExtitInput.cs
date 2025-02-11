@@ -19,7 +19,7 @@ public class ExitInput : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No se encontró la acción 'Exit' en el Action Map 'UI'.");
+            Debug.LogError("No se encontrï¿½ la acciï¿½n 'Exit' en el Action Map 'UI'.");
         }
     }
 
@@ -46,6 +46,5 @@ public class ExitInput : MonoBehaviour
     public void MainMenu()
     {
         SceneManager.LoadSceneAsync(0);
-
     }
 }

@@ -21,25 +21,21 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        //Distance is calculated with the speed and InvokeRepeating
         TimerController.instance.BeginTimer();
     }
 
     void FixedUpdate()
     {
-        MoveCharacter();
-       
+        MoveCharacter();  
     }
 
     public void OnMove(InputValue value)
     {
         _movementInput = value.Get<Vector2>();
 
-        
         if (_movementInput.sqrMagnitude > 1)
         {
-            _movementInput = _movementInput.normalized;
-           
+            _movementInput = _movementInput.normalized; 
         }
         distance();
         distanceMoved.text = "Distance " + distanceUnit.ToString() + " meters";
@@ -47,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveCharacter()
     {
-        
         Vector2 velocity = _movementInput * Speed;
         _rigidbody.linearVelocity = velocity;
         _isMoving = velocity.sqrMagnitude > 0.01f;
@@ -70,10 +65,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void distance()
     {
-  
         distanceUnit = distanceUnit + 1/Speed;
-       
-
     }
 
 }

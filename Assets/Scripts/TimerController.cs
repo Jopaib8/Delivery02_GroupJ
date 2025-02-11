@@ -13,10 +13,12 @@ public class TimerController : MonoBehaviour
     private bool isTimerGoing;
 
     private float passedTime;
+    
     private void Awake()
     {
         instance = this;
     }
+
     private void Start()
     {
 
@@ -32,12 +34,12 @@ public class TimerController : MonoBehaviour
 
         StartCoroutine(UpdateTimer());
     }
+
     public void EndTImer()
     {
         isTimerGoing = false;
     }
 
-    // UpdateTimer it's a Couroutine that never returns a non null yield so the time keeps going on until the bool variable isTimerGoing is false
     private IEnumerator UpdateTimer()
     {
         while(isTimerGoing)

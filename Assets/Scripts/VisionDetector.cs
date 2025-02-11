@@ -72,7 +72,6 @@ public class VisionDetector : MonoBehaviour
                 players.Remove(players[i]);
             }
         }
-
         return (players.Count > 0);
     }
 
@@ -95,7 +94,6 @@ public class VisionDetector : MonoBehaviour
                 players.Remove(players[i]);
             }
         }
-
         return (players.Count > 0);
     }
 
@@ -108,7 +106,6 @@ public class VisionDetector : MonoBehaviour
            DetectionRange,
            WhatIsVisible
         );
-
         return (hit.collider.transform == target);
     }
 }
