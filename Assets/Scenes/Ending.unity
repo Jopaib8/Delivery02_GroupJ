@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8, y: 274}
+  m_AnchoredPosition: {x: 8, y: 157}
   m_SizeDelta: {x: 515.17, y: 158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &365381495
@@ -421,7 +421,7 @@ RectTransform:
   m_GameObject: {fileID: 657689318}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.0013638, y: 4.0013638, z: 4.0013638}
+  m_LocalScale: {x: 1.9500645, y: 1.9500645, z: 1.9500645}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1071866911}
@@ -429,7 +429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -414}
+  m_AnchoredPosition: {x: 0, y: -228.717}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &657689320
@@ -554,7 +554,7 @@ RectTransform:
   m_GameObject: {fileID: 782274425}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.5609689, y: 3.5609689, z: 3.5609689}
+  m_LocalScale: {x: 1.7354381, y: 1.7354381, z: 1.7354381}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 438784126}
@@ -562,7 +562,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: -115}
+  m_AnchoredPosition: {x: 1.9494, y: -83}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &782274427
@@ -741,8 +741,8 @@ Transform:
   m_GameObject: {fileID: 845323956}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07717197, y: 0.09839287, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.077172, y: 0.098393, z: 0}
+  m_LocalScale: {x: 1.2033, y: 1.2033, z: 1.2033}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -776,13 +776,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c97db2db2792a44919231badf6b1ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActions: {fileID: -944628639613478452, guid: 54136bf61d7066f4990c3ce7a9b6d5b9,
-    type: 3}
-  exitAction:
-    m_Name: Exit
+  InputActions: {fileID: 0}
+  ExitAction:
+    m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 62a3b45f-414c-44d4-87f4-b7644038affe
+    m_Id: 33ab60b8-9dfd-4d83-a534-f57241d217a2
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
