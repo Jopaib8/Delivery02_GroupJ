@@ -1168,12 +1168,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c97db2db2792a44919231badf6b1ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputActions: {fileID: 0}
-  ExitAction:
-    m_Name: 
+  inputActions: {fileID: -944628639613478452, guid: 54136bf61d7066f4990c3ce7a9b6d5b9,
+    type: 3}
+  exitAction:
+    m_Name: Exit
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 89a8451e-a2f5-4bd5-a99e-1467fd1a7030
+    m_Id: fed1615b-4c83-40c8-b8f8-567cb89ebfb9
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -1190,12 +1191,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a569a322976d5c343bc261f1c5eadcb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputActions: {fileID: 0}
-  StartAction:
+  inputActions: {fileID: -944628639613478452, guid: 54136bf61d7066f4990c3ce7a9b6d5b9,
+    type: 3}
+  startAction:
     m_Name: Start
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 860b35a0-d72f-4dd0-a19c-dbda588eb36e
+    m_Id: 29afccfe-f614-4837-8945-5790edf6f93d
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []

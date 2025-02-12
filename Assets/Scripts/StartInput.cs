@@ -4,27 +4,27 @@ using UnityEngine.SceneManagement;
 
 public class StartInput : MonoBehaviour
 {
-    public InputActionAsset InputActions;
-    public InputAction StartAction;
+    public InputActionAsset inputActions;
+    public InputAction startAction;
 
     private void OnEnable()
     {
-        var uiActions = InputActions.FindActionMap("UI");
-        StartAction = uiActions.FindAction("Start");
+        var uiActions = inputActions.FindActionMap("UI");
+        startAction = uiActions.FindAction("Start");
 
-        if (StartAction != null)
+        if (startAction != null)
         {
-            StartAction.Enable();
-            StartAction.performed += OnStartPerformed;
+            startAction.Enable();
+            startAction.performed += OnStartPerformed;
         }
     }
 
     private void OnDisable()
     {
-        if (StartAction != null)
+        if (startAction != null)
         {
-            StartAction.performed -= OnStartPerformed;
-            StartAction.Disable();
+            startAction.performed -= OnStartPerformed;
+            startAction.Disable();
         }
     }
 
