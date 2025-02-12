@@ -18,7 +18,6 @@ public class IdleBehaviour : StateMachineBehaviour
     {
         var playerClose = IsPlayerClose(animator.transform);
         var timeUp = IsTimeUp();
-
         animator.SetBool("IsChasing", playerClose);
         animator.SetBool("IsPatroling", timeUp);
     }

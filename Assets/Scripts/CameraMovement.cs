@@ -4,7 +4,7 @@ public class CameraMovement : MonoBehaviour
 {
     public Transform Player;
     private Vector3 offset;
-    public float smoothSpeed = 5f;
+    public float SmoothSpeed = 5f;
 
     void Start()
     {
@@ -25,6 +25,6 @@ public class CameraMovement : MonoBehaviour
     void LateUpdate()
     {
         Vector3 desiredPosition = Player.position + offset;
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, SmoothSpeed * Time.deltaTime);
     }
 }

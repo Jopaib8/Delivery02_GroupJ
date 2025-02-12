@@ -6,7 +6,6 @@ public class VisionGizmo : MonoBehaviour
     private float visionRange;
     [SerializeField]
     private float playerDistance;
-
     private Transform _player;
 
     public void Start()

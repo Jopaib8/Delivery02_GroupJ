@@ -4,17 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class ExitInput : MonoBehaviour
 {
-    public InputActionAsset inputActions;
-    public InputAction exitAction;
+    public InputActionAsset InputActions;
+    public InputAction ExitAction;
 
     private void OnEnable()
     {
-        var uiActions = inputActions.FindActionMap("UI");
-        exitAction = uiActions.FindAction("Exit");
-        if (exitAction != null)
+        var uiActions = InputActions.FindActionMap("UI");
+        ExitAction = uiActions.FindAction("Exit");
+        if (ExitAction != null)
         {
-            exitAction.Enable();
-            exitAction.performed += OnExitPerformed;
+            ExitAction.Enable();
+            ExitAction.performed += OnExitPerformed;
         }
         else
         {
@@ -24,10 +24,10 @@ public class ExitInput : MonoBehaviour
 
     private void OnDisable()
     {
-        if (exitAction != null)
+        if (ExitAction != null)
         {            
-            exitAction.performed -= OnExitPerformed;
-            exitAction.Disable();
+            ExitAction.performed -= OnExitPerformed;
+            ExitAction.Disable();
         }
     }
 

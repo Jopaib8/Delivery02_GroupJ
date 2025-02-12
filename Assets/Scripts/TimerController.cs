@@ -28,10 +28,9 @@ public class TimerController : MonoBehaviour
                 TimerOn = false;
             }
         }
-
         if (!TimerOn)
         {
-               SceneManager.LoadSceneAsync(2);
+            SceneManager.LoadSceneAsync(2);
         }
     }
 

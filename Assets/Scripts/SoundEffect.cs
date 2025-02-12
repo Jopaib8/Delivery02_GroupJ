@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class SoundEffect : MonoBehaviour
 {
-    [SerializeField] private AudioClip alarm;
+    [SerializeField] private AudioClip Alarm;
 
-    // Reproducir un sonido al colisionar con el jugador
     private void OnTriggerEnter2D(Collider2D other)
     {
-            SoundController.Instance.PlaySound(alarm);
+            SoundController.Instance.PlaySound(Alarm);
     }
 }

@@ -10,15 +10,16 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     public bool IsMoving = false;
-    public Text distanceMoved;
+    public Text DistanceMoved;
     [SerializeField]
-    private float Speed = 5.0f;
-    public float distanceUnit = 0;
+    private float speed = 5.0f;
+    public float DistanceUnit = 0;
     private bool _isMoving;
     private Rigidbody2D _rigidbody;
     private Vector2 _movementInput;
     private Vector2 lastPosition;
     private float startTime;
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -42,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
                 _movementInput = _movementInput.normalized;
             }
             distance();
-            distanceMoved.text = "Distance " + distanceUnit.ToString() + " units";
+            DistanceMoved.text = "Distance " + DistanceUnit.ToString() + " units";
         }
         lastPosition = transform.position;
     }
@@ -50,17 +51,15 @@ public class PlayerMovement : MonoBehaviour
     private void MoveCharacter()
     {
 
-        Vector2 velocity = _movementInput * Speed;
+        Vector2 velocity = _movementInput * speed;
         _rigidbody.linearVelocity = velocity;
         _isMoving = (Vector2)transform.position == lastPosition;
-
         if (!_isMoving)
         {
             LookAt(velocity);
             distance();
-            distanceMoved.text = "Distance " + distanceUnit.ToString() + " units";
+            DistanceMoved.text = "Distance " + DistanceUnit.ToString() + " units";
         }
-
         lastPosition = transform.position;
     }
 
@@ -72,10 +71,9 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, angle - 90);
         }
     }
+
     private void distance()
     {
-        distanceUnit = distanceUnit + 1 / Speed;
+        DistanceUnit = DistanceUnit + 1 / speed;
     }
-
 }
-
