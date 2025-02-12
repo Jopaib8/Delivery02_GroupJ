@@ -8,9 +8,9 @@
 
 ### Features
 
- - 
- - 
- - 
+ - Enemy patrolling movement from point A to point B
+ - Enemy vision range (circle area) and angle (vision cone)
+ - Player total move distance counter and level complete time shown in UI
 
 ### Controls
 
