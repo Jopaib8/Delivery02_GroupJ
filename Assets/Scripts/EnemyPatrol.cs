@@ -1,190 +1,118 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 public class EnemyPatrol : MonoBehaviour
 {
+    [Header("Patrol Settings")]
     [SerializeField] private GameObject patrolPointA;
     [SerializeField] private GameObject patrolPointB;
-    [SerializeField] private float MovementSpeed;
-    [SerializeField] private float MovemntSpeedPatrol;
-    [Header("Enemy Detection")]
-    [SerializeField] private float DetectionRange;
-    public LayerMask WhatIsVisible;
-    public LayerMask WhatIsPlayer;
+    [SerializeField] private float patrolSpeed = 2f;
+
+    [Header("Detection Settings")]
+    [SerializeField] private float detectionRange = 5f;
+    [SerializeField] private float visionAngle = 90f;
+    [SerializeField] private LayerMask whatIsPlayer;
+    [SerializeField] private LayerMask whatIsObstacle;
+
     private Rigidbody2D rb;
-    private Transform CurrentPoint;
-    private GameObject Player;
-    private Animator animator;
-    public float VisionAngle;
+    private Transform currentPoint;
+    private GameObject player;
+    private bool isChasing = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        CurrentPoint = patrolPointB.transform;
-        animator = GetComponent<Animator>();
-        rb.freezeRotation = true;
-    }
-
-    private bool PlayerInRange(ref List<Transform> players)
-    {
-        bool result = false;
-        Collider2D[] playerColliders = Physics2D.OverlapCircleAll(transform.position, DetectionRange, WhatIsPlayer);
-        if (playerColliders.Length != 0)
-        {
-            result = true;
-            foreach (var item in playerColliders)
-            {
-                players.Add(item.transform);
-            }
-        }
-        return result;
-    }
-    private bool PlayerInAngle(ref List<Transform> players)
-    {
-        for (int i = players.Count - 1; i >= 0; i--)
-        {
-            var angle = GetAngle(players[i]);
-            if (angle > VisionAngle / 2)
-            {
-                players.Remove(players[i]);
-            }
-        }
-
-        return (players.Count > 0);
-    }
-
-    private float GetAngle(Transform target)
-    {
-        Vector2 targetDir = target.position - transform.position;
-        float angle = Vector2.Angle(targetDir, transform.right);
-        return angle;
-    }
-
-    public Transform[] DetectPlayers()
-    {
-        List<Transform> players = new List<Transform>();
-        if (PlayerInRange(ref players))
-        {
-            if (PlayerInAngle(ref players))
-            {
-                PlayerIsVisible(ref players);
-            }
-        }
-        return players.ToArray();
-    }
-
-    private bool PlayerIsVisible(ref List<Transform> players)
-    {
-        for (int i = players.Count - 1; i >= 0; i--)
-        {
-            var isVisible = IsVisible(players[i]);
-            if (!isVisible)
-            {
-                players.Remove(players[i]);
-            }
-        }
-
-        return (players.Count > 0);
-    }
-
-    private bool IsVisible(Transform target)
-    {
-        Vector3 dir = target.position - transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(
-           transform.position,
-           dir,
-           DetectionRange,
-           WhatIsVisible
-        );
-        return (hit.collider.transform == target);
+        currentPoint = patrolPointB.transform; // Comienza moviéndose hacia el punto B
+        player = GameObject.FindGameObjectWithTag("Player"); // Encuentra al jugador al inicio
     }
 
     private void Update()
     {
-        if (Player == null)
+        if (player == null) return; // Si no hay jugador, no hacer nada
+
+        if (isChasing)
         {
-            Player = GameObject.FindGameObjectWithTag("Player");
-            Debug.Log("Jugador encontrado");
-        }
-        if (Vector2.Distance(transform.position, Player.transform.position) > DetectionRange)
-        {
-            transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
-            if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
-            {
-                Flip(); 
-                CurrentPoint = (CurrentPoint == patrolPointA.transform) ? patrolPointB.transform : patrolPointA.transform;
-            }
+            ChasePlayer();
         }
         else
         {
-            Transform[] detectedPlayers = DetectPlayers();
-            if (detectedPlayers.Length > 0)
+            Patrol();
+            CheckForPlayer();
+        }
+    }
+
+    private void Patrol()
+    {
+        // Mueve al enemigo hacia el punto actual de patrulla
+        transform.position = Vector2.MoveTowards(transform.position, currentPoint.position, patrolSpeed * Time.deltaTime);
+
+        // Si el enemigo está cerca del punto actual, cambia al siguiente punto
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.1f)
+        {
+            Flip();
+            currentPoint = (currentPoint == patrolPointA.transform) ? patrolPointB.transform : patrolPointA.transform;
+        }
+    }
+
+    private void CheckForPlayer()
+    {
+        // Verifica si el jugador está dentro del rango de detección
+        Collider2D[] playersInRange = Physics2D.OverlapCircleAll(transform.position, detectionRange, whatIsPlayer);
+
+        foreach (var playerCollider in playersInRange)
+        {
+            Transform playerTransform = playerCollider.transform;
+            Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
+
+            // Verifica si el jugador está dentro del ángulo de visión
+            float angleToPlayer = Vector2.Angle(transform.right, directionToPlayer);
+            if (angleToPlayer < visionAngle / 2)
             {
-                Debug.Log("Jugador detectado. Persecuci�n iniciada.");
-                transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
-                Debug.Log("Persiguiendo al jugador...");
-            }
-            else
-            {
-                transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
-                if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
+                // Verifica si hay obstáculos entre el enemigo y el jugador
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, detectionRange, whatIsObstacle);
+
+                if (hit.collider != null && hit.collider.CompareTag("Player"))
                 {
-                    Flip(); 
-                    CurrentPoint = (CurrentPoint == patrolPointA.transform) ? patrolPointB.transform : patrolPointA.transform;
+                    isChasing = true; // Comienza a perseguir al jugador
+                    break;
                 }
             }
         }
     }
 
-    /* private void FixedUpdate()
-     {
-         if (Player == null)
-         {
-             Player = GameObject.FindGameObjectWithTag("Player");
-         }
-         else if (DetectPlayers().Length > 0)
-         {
-             if (Vector2.Distance(transform.position, Player.transform.position) < DetectionRange)
-             {
-                 Debug.Log("persecucion");
-                 transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
-             }
-         }
-         else
-         {
-             Debug.Log("patrol");
-             transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
-         }
+    private void ChasePlayer()
+    {
+        // Mueve al enemigo hacia la posición del jugador
+        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, patrolSpeed * Time.deltaTime);
 
-     }*/
+        // Si el jugador se escapa del rango de detección, vuelve a patrullar
+        if (Vector2.Distance(transform.position, player.transform.position) > detectionRange)
+        {
+            isChasing = false;
+        }
+    }
+
     private void Flip()
     {
-        Vector3 Scaler = transform.localScale;
-        Scaler.x *= -1;
-        transform.localScale = Scaler;
+        // Voltea al enemigo y ajusta la dirección del cono de visión
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
     }
 
-#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position, DetectionRange);
+        // Dibuja el rango de detección
         Gizmos.color = Color.yellow;
-        var direction = Quaternion.AngleAxis(VisionAngle / 2, transform.forward)
-            * transform.right;
-        Gizmos.DrawRay(transform.position, direction * DetectionRange);
-        var direction2 = Quaternion.AngleAxis(-VisionAngle / 2, transform.forward)
-            * transform.right;
-        Gizmos.DrawRay(transform.position, direction2 * DetectionRange);
-        Gizmos.color = Color.white;
-    }
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
 
-    private void OnDrawGizmos()
-    {
+        // Dibuja el cono de visión
+        Vector3 forward = transform.right;
+        Vector3 leftDir = Quaternion.AngleAxis(-visionAngle / 2, Vector3.forward) * forward;
+        Vector3 rightDir = Quaternion.AngleAxis(visionAngle / 2, Vector3.forward) * forward;
+
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(patrolPointA.transform.position, 0.2f);
-        Gizmos.DrawWireSphere(patrolPointB.transform.position, 0.2f);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(patrolPointA.transform.position, patrolPointB.transform.position);
+        Gizmos.DrawLine(transform.position, transform.position + leftDir * detectionRange);
+        Gizmos.DrawLine(transform.position, transform.position + rightDir * detectionRange);
     }
-#endif 
 }

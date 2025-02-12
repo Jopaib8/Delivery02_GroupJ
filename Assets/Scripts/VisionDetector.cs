@@ -25,23 +25,9 @@ public class VisionDetector : MonoBehaviour
 
     private void Update()
     {
-        if (DetectPlayers().Length > 0) Debug.Log("Player detected");
+        if (DetectPlayers().Length > DetectionRange) Debug.Log("Player detected");
     }
 
-    private Transform[] DetectPlayers()
-    {
-        List<Transform> players = new List<Transform>();
-
-        if (PlayerInRange(ref players))
-        {
-            if (PlayerInAngle(ref players))
-            {
-                PlayerIsVisible(ref players);
-            }
-        }
-
-        return players.ToArray();
-    }
 
     private bool PlayerInRange(ref List<Transform> players)
     {
@@ -107,5 +93,19 @@ public class VisionDetector : MonoBehaviour
            WhatIsVisible
         );
         return (hit.collider.transform == target);
+    }
+    private Transform[] DetectPlayers()
+    {
+        List<Transform> players = new List<Transform>();
+
+        if (PlayerInRange(ref players))
+        {
+            if (PlayerInAngle(ref players))
+            {
+                PlayerIsVisible(ref players);
+            }
+        }
+
+        return players.ToArray();
     }
 }
