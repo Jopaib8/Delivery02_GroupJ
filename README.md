@@ -4,7 +4,7 @@
 
 ### Description
 
-
+In this stealth game you must avoid the patrolling enemies and theire detection ranges. Use the map in your advantadge and try to reach the end before the time runs out.
 
 ### Features
 
