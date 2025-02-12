@@ -2273,7 +2273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb53f9d212e85ab4cbfa15cc9a35682d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 197610841}
+  Player: {fileID: 0}
   smoothSpeed: 90
 --- !u!1 &547497462
 GameObject:
@@ -2694,8 +2694,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimerTxt: {fileID: 615651457}
-  playTime: 0
-  timerOn: 0
+  PlayTime: 0
+  TimerOn: 0
 --- !u!1 &651928327
 GameObject:
   m_ObjectHideFlags: 0

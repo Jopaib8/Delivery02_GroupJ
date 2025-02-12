@@ -10,15 +10,15 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     public bool IsMoving = false;
-    public Text DistanceMoved;
+    public Text distanceMoved;
     [SerializeField]
-    private float speed = 5.0f;
+    private float Speed = 5.0f;
     public float distanceUnit = 0;
     private bool _isMoving;
     private Rigidbody2D _rigidbody;
     private Vector2 _movementInput;
     private Vector2 lastPosition;
-    private float startTime; 
+    private float startTime;
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -42,15 +42,15 @@ public class PlayerMovement : MonoBehaviour
                 _movementInput = _movementInput.normalized;
             }
             distance();
-            DistanceMoved.text = "Distance " + distanceUnit.ToString() + " units";
+            distanceMoved.text = "Distance " + distanceUnit.ToString() + " units";
         }
         lastPosition = transform.position;
     }
 
     private void MoveCharacter()
     {
-       
-        Vector2 velocity = _movementInput * speed;
+
+        Vector2 velocity = _movementInput * Speed;
         _rigidbody.linearVelocity = velocity;
         _isMoving = (Vector2)transform.position == lastPosition;
 
@@ -58,9 +58,9 @@ public class PlayerMovement : MonoBehaviour
         {
             LookAt(velocity);
             distance();
-            DistanceMoved.text = "Distance " + distanceUnit.ToString() + " units";
+            distanceMoved.text = "Distance " + distanceUnit.ToString() + " units";
         }
-        
+
         lastPosition = transform.position;
     }
 
@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void distance()
     {
-        distanceUnit = distanceUnit + 1/speed;
+        distanceUnit = distanceUnit + 1 / Speed;
     }
 
 }
