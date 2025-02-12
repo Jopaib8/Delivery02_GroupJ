@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class TimerController : MonoBehaviour 
 {
@@ -22,6 +23,15 @@ public class TimerController : MonoBehaviour
         {
             UpdateTimer(PlayTime);
             PlayTime += Time.deltaTime;
+            if (PlayTime == 30)
+            {
+                TimerOn = false;
+            }
+        }
+
+        if (!TimerOn)
+        {
+               SceneManager.LoadSceneAsync(2);
         }
     }
 
