@@ -11,6 +11,7 @@ public class StartInput : MonoBehaviour
     {
         var uiActions = InputActions.FindActionMap("UI");
         StartAction = uiActions.FindAction("Start");
+
         if (StartAction != null)
         {
             StartAction.Enable();
