@@ -1168,9 +1168,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c97db2db2792a44919231badf6b1ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputActions: {fileID: 0}
+  InputActions: {fileID: -944628639613478452, guid: 54136bf61d7066f4990c3ce7a9b6d5b9,
+    type: 3}
   ExitAction:
-    m_Name: 
+    m_Name: Exit
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 46236849-11cf-4779-9fce-b8c6e9a8bb3f
@@ -1190,9 +1191,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a569a322976d5c343bc261f1c5eadcb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputActions: {fileID: 0}
+  InputActions: {fileID: -944628639613478452, guid: 54136bf61d7066f4990c3ce7a9b6d5b9,
+    type: 3}
   StartAction:
-    m_Name: 
+    m_Name: Start
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 99d2536f-ecb4-4360-8994-251d8c7a0e39
