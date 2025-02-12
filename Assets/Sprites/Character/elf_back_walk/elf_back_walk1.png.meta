@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      elf_back_walk1_0: 1666052423211708350
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

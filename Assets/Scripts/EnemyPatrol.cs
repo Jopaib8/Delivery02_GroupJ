@@ -118,7 +118,7 @@ public class EnemyPatrol : MonoBehaviour
 
         if (Vector2.Distance(transform.position, Player.transform.position) > DetectionRange)
         {
-            Debug.Log("Jugador fuera de rango. Patrullando...");
+           // Debug.Log("Jugador fuera de rango. Patrullando...");
             transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
@@ -139,7 +139,7 @@ public class EnemyPatrol : MonoBehaviour
             }
             else
             {
-                Debug.Log("Jugador no detectado. Patrullando...");
+               // Debug.Log("Jugador no detectado. Patrullando...");
                 transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
 
                 if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
