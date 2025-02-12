@@ -2,31 +2,29 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public Transform player;
+    public Transform Player;
     private Vector3 offset;
     public float smoothSpeed = 5f;
 
     void Start()
     {
-        if (player == null)
+        if (Player == null)
         {
             GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
             if (playerObject != null)
             {
-                player = playerObject.transform;
+                Player = playerObject.transform;
             }
         }
-
-        if (player != null)
+        if (Player != null)
         {
-            offset = transform.position - player.position;
+            offset = transform.position - Player.position;
         }
     }
 
     void LateUpdate()
     {
-        Vector3 desiredPosition = player.position + offset;
-
+        Vector3 desiredPosition = Player.position + offset;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
     }
 }

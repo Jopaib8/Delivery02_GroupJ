@@ -20,7 +20,6 @@ public class EnemyAlarm : MonoBehaviour
     private void ChangeColor(Color color)
     {
         if (_alarmRenderer == null) _alarmRenderer = GetComponent<SpriteRenderer>();
-
         _alarmRenderer.color = color;
     }
 }

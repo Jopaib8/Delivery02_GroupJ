@@ -1,5 +1,4 @@
 using UnityEngine;
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -9,21 +8,20 @@ using UnityEngine.PlayerLoop;
 public class TimerController : MonoBehaviour 
 {
     public Text TimerTxt;
-    public float playTime;
-    public bool timerOn = false;
+    public float PlayTime;
+    public bool TimerOn = false;
     
     private void Start()
     {
-        timerOn = true;
+        TimerOn = true;
     }
 
     private void Update()
     {
-        if (timerOn)
+        if (TimerOn)
         {
-            UpdateTimer(playTime);
-
-            playTime += Time.deltaTime;
+            UpdateTimer(PlayTime);
+            PlayTime += Time.deltaTime;
         }
     }
 

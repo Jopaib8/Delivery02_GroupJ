@@ -21,7 +21,6 @@ public class EnemyPatrol : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         CurrentPoint = patrolPointB.transform;
-
         animator = GetComponent<Animator>();
         rb.freezeRotation = true;
     }
@@ -30,17 +29,14 @@ public class EnemyPatrol : MonoBehaviour
     {
         bool result = false;
         Collider2D[] playerColliders = Physics2D.OverlapCircleAll(transform.position, DetectionRange, WhatIsPlayer);
-
         if (playerColliders.Length != 0)
         {
             result = true;
-
             foreach (var item in playerColliders)
             {
                 players.Add(item.transform);
             }
         }
-
         return result;
     }
     private bool PlayerInAngle(ref List<Transform> players)
@@ -48,7 +44,6 @@ public class EnemyPatrol : MonoBehaviour
         for (int i = players.Count - 1; i >= 0; i--)
         {
             var angle = GetAngle(players[i]);
-
             if (angle > VisionAngle / 2)
             {
                 players.Remove(players[i]);
@@ -62,14 +57,12 @@ public class EnemyPatrol : MonoBehaviour
     {
         Vector2 targetDir = target.position - transform.position;
         float angle = Vector2.Angle(targetDir, transform.right);
-
         return angle;
     }
 
     public Transform[] DetectPlayers()
     {
         List<Transform> players = new List<Transform>();
-
         if (PlayerInRange(ref players))
         {
             if (PlayerInAngle(ref players))
@@ -85,7 +78,6 @@ public class EnemyPatrol : MonoBehaviour
         for (int i = players.Count - 1; i >= 0; i--)
         {
             var isVisible = IsVisible(players[i]);
-
             if (!isVisible)
             {
                 players.Remove(players[i]);
@@ -104,7 +96,6 @@ public class EnemyPatrol : MonoBehaviour
            DetectionRange,
            WhatIsVisible
         );
-
         return (hit.collider.transform == target);
     }
 
@@ -115,12 +106,9 @@ public class EnemyPatrol : MonoBehaviour
             Player = GameObject.FindGameObjectWithTag("Player");
             Debug.Log("Jugador encontrado");
         }
-
         if (Vector2.Distance(transform.position, Player.transform.position) > DetectionRange)
         {
-           // Debug.Log("Jugador fuera de rango. Patrullando...");
             transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
-
             if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
             {
                 Flip(); 
@@ -130,18 +118,15 @@ public class EnemyPatrol : MonoBehaviour
         else
         {
             Transform[] detectedPlayers = DetectPlayers();
-
             if (detectedPlayers.Length > 0)
             {
-                Debug.Log("Jugador detectado. Persecución iniciada.");
+                Debug.Log("Jugador detectado. Persecuciï¿½n iniciada.");
                 transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, MovementSpeed * Time.deltaTime);
                 Debug.Log("Persiguiendo al jugador...");
             }
             else
             {
-               // Debug.Log("Jugador no detectado. Patrullando...");
                 transform.position = Vector2.MoveTowards(transform.position, CurrentPoint.position, MovemntSpeedPatrol * Time.deltaTime);
-
                 if (Vector2.Distance(transform.position, CurrentPoint.position) < 0.1f)
                 {
                     Flip(); 
@@ -150,7 +135,6 @@ public class EnemyPatrol : MonoBehaviour
             }
         }
     }
-
 
     /* private void FixedUpdate()
      {
@@ -173,7 +157,6 @@ public class EnemyPatrol : MonoBehaviour
          }
 
      }*/
-
     private void Flip()
     {
         Vector3 Scaler = transform.localScale;
@@ -185,7 +168,6 @@ public class EnemyPatrol : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position, DetectionRange);
-
         Gizmos.color = Color.yellow;
         var direction = Quaternion.AngleAxis(VisionAngle / 2, transform.forward)
             * transform.right;
@@ -193,7 +175,6 @@ public class EnemyPatrol : MonoBehaviour
         var direction2 = Quaternion.AngleAxis(-VisionAngle / 2, transform.forward)
             * transform.right;
         Gizmos.DrawRay(transform.position, direction2 * DetectionRange);
-
         Gizmos.color = Color.white;
     }
 
@@ -202,10 +183,8 @@ public class EnemyPatrol : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(patrolPointA.transform.position, 0.2f);
         Gizmos.DrawWireSphere(patrolPointB.transform.position, 0.2f);
-
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(patrolPointA.transform.position, patrolPointB.transform.position);
     }
-
 #endif 
 }

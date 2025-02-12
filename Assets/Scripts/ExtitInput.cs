@@ -11,7 +11,6 @@ public class ExitInput : MonoBehaviour
     {
         var uiActions = inputActions.FindActionMap("UI");
         exitAction = uiActions.FindAction("Exit");
-
         if (exitAction != null)
         {
             exitAction.Enable();
@@ -19,7 +18,7 @@ public class ExitInput : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No se encontr� la acci�n 'Exit' en el Action Map 'UI'.");
+            Debug.LogError("UI NOT FOUND");
         }
     }
 
